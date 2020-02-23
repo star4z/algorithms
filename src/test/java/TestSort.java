@@ -36,8 +36,12 @@ public abstract class TestSort {
     }
 
     private <T extends Comparable<T>> void testSort(List<T> unsortedList) {
+        List<T> groundTruth = new ArrayList<>(unsortedList);
+        Collections.sort(groundTruth);
         List<T> sortedList = sort.sort(unsortedList);
-        Collections.sort(unsortedList);
-        assertEquals(unsortedList, sortedList);
+
+        System.out.println("expected=" + groundTruth);
+        System.out.println("actual=" + sortedList);
+        assertEquals(groundTruth, sortedList);
     }
 }
