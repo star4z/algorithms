@@ -7,28 +7,40 @@ public class MergeSort implements Sort {
         List<T> sortedList = new ArrayList<>(unsortedList);
         int p = 0;
         int r = sortedList.size() - 1;
-        int q = r / 2;
-        merge(sortedList, p, q, r);
+        sort(sortedList, p, r);
         return sortedList;
     }
 
+    public <T extends Comparable<T>> void sort(List<T> A, int p, int r) {
+        if (p < r) {
+            int q = (p + r) / 2;
+            sort(A, p, q);
+            sort(A, q + 1, r);
+            merge(A, p, q, r);
+        }
+    }
+
     private <T extends Comparable<T>> void merge(List<T> A, int p, int q, int r) {
-        int n1 = q - p;
-        int n2 = r - q;
+        int n1 = q - p + 1; //size of L
+        int n2 = r - q; //size of R
         List<T> L = new ArrayList<>(n1);
         List<T> R = new ArrayList<>(n2);
         for (int i = 0; i < n1; i++) {
-            L.set(i, A.get(p + i));
+            L.add(i, A.get(p + i));
         }
         for (int j = 0; j < n2; j++) {
-            R.set(j, A.get(q + j));
+            R.add(j, A.get(q + j + 1));
         }
-        L.set(n1, null);
-        R.set(n2, null);
-        int i = 1;
-        int j = 1;
-        for (int k = p; k < r; k++) {
-            if (L.get(i).compareTo(R.get(j)) <= 0) {
+        int i = 0; //index for L
+        int j = 0; //index for R
+        for (int k = p; k <= r; k++) {
+            if (i >= n1) {
+                A.set(k, R.get(j));
+                j++;
+            } else if (j >= n2) {
+                A.set(k, L.get(i));
+                i++;
+            } else if (L.get(i).compareTo(R.get(j)) <= 0) {
                 A.set(k, L.get(i));
                 i++;
             } else {

@@ -25,6 +25,7 @@ public abstract class TestSort {
     }
 
     @Test
+//    @Disabled
     public void testSortIntegerList() {
         Random random = new Random(42L);
         ArrayList<Integer> unsortedList = new ArrayList<>(10_000);
